@@ -1,0 +1,377 @@
+[
+  {
+    "domain": "sports_clinic_therapist_branch",
+    "requirements": "I need a database for a sports clinic to manage therapist appointments. Each appointment session has a specific Patient, a Time slot, and an assigned Therapist. A therapist only works at one specific Clinic Branch, but our clinic branches have multiple therapists working in them. Please design a single table to store these sessions.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'sessions': 3NF violation \u2014 transitive dependency ['therapist_id'] -> 'clinic_branch_id'; ['therapist_id'] is not a superkey and 'clinic_branch_id' is not part of any candidate key.",
+      "Table 'sessions': BCNF violation \u2014 ['therapist_id'] -> ['clinic_branch_id'], but ['therapist_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "project_assignment_costs",
+    "requirements": "We need a table named project_assignment_costs to track project expenses. Store worker_id, project_id, location_id, hours_worked, hourly_rate, and location_tax_rate. The primary key is a composite of worker_id, project_id, and location_id. Note that location_tax_rate depends only on location_id, while hourly_rate depends on the worker_id and location_id combination.",
+    "baseline_issue_count": 9,
+    "baseline_issues": [
+      "Column 'project_assignment_costs.worker_id' references table 'workers', which does not exist in the schema.",
+      "Column 'project_assignment_costs.project_id' references table 'projects', which does not exist in the schema.",
+      "Column 'project_assignment_costs.location_id' references table 'locations', which does not exist in the schema.",
+      "Table 'project_assignment_costs': 2NF violation \u2014 'location_tax_rate' depends only on ['location_id'], a proper subset of candidate key ['location_id', 'project_id', 'worker_id'], not the whole key.",
+      "Table 'project_assignment_costs': 2NF violation \u2014 'hourly_rate' depends only on ['location_id', 'worker_id'], a proper subset of candidate key ['location_id', 'project_id', 'worker_id'], not the whole key.",
+      "Table 'project_assignment_costs': 3NF violation \u2014 transitive dependency ['location_id'] -> 'location_tax_rate'; ['location_id'] is not a superkey and 'location_tax_rate' is not part of any candidate key.",
+      "Table 'project_assignment_costs': 3NF violation \u2014 transitive dependency ['location_id', 'worker_id'] -> 'hourly_rate'; ['location_id', 'worker_id'] is not a superkey and 'hourly_rate' is not part of any candidate key.",
+      "Table 'project_assignment_costs': BCNF violation \u2014 ['location_id'] -> ['location_tax_rate'], but ['location_id'] is not a superkey.",
+      "Table 'project_assignment_costs': BCNF violation \u2014 ['location_id', 'worker_id'] -> ['hourly_rate'], but ['location_id', 'worker_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "2NF": 2,
+      "3NF": 2,
+      "BCNF": 2
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 6,
+    "self_critique_final_issues": [
+      "Column 'project_assignment_costs.worker_id' references table 'workers', which does not exist in the schema.",
+      "Column 'project_assignment_costs.project_id' references table 'projects', which does not exist in the schema.",
+      "Column 'project_assignment_costs.location_id' references table 'locations', which does not exist in the schema.",
+      "Column 'location_tax_rates.location_id' references table 'locations', which does not exist in the schema.",
+      "Column 'worker_location_rates.worker_id' references table 'workers', which does not exist in the schema.",
+      "Column 'worker_location_rates.location_id' references table 'locations', which does not exist in the schema."
+    ],
+    "self_critique_resolved": false,
+    "error": null
+  },
+  {
+    "domain": "consulting_assignments",
+    "requirements": "I need a database layout for our corporate consulting assignments. Each assignment tracks a unique Project, the Consultant assigned, and the specific Role they perform. Note that a Consultant can only hold a single specific Role across our entire firm, but multiple consultants can share the same Role on the same Project.",
+    "baseline_issue_count": 0,
+    "baseline_issues": [],
+    "violation_types_baseline": {},
+    "self_critique_attempted": false,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "hospital_shifts",
+    "requirements": "Design a scheduling schema for a medical hospital network. Each row tracks a unique Shift ID, an Assigned Doctor, and the specific Medical Ward they are operating in. Note that a Doctor is permanently bound to a single Medical Ward across our network, but multiple doctors work shifts in the same ward.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'shifts': 3NF violation \u2014 transitive dependency ['doctor_id'] -> 'ward_id'; ['doctor_id'] is not a superkey and 'ward_id' is not part of any candidate key.",
+      "Table 'shifts': BCNF violation \u2014 ['doctor_id'] -> ['ward_id'], but ['doctor_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "real_estate_listings",
+    "requirements": "I need a database layout for our real estate firm to track listings. Each listing tracks a Property ID, the Assigned Agent Name, and the Agent's Local Branch Office. Note that an Agent Name uniquely determines which single Local Branch Office they operate out of firm-wide, but a Local Branch Office can host multiple different agents. Set Property ID as the primary key.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'listings': 3NF violation \u2014 transitive dependency ['agent_name'] -> 'local_branch_office'; ['agent_name'] is not a superkey and 'local_branch_office' is not part of any candidate key.",
+      "Table 'listings': BCNF violation \u2014 ['agent_name'] -> ['local_branch_office'], but ['agent_name'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "university_classes",
+    "requirements": "Design a database layout to track university classes. Each record maps a unique Class ID, an Assigned Professor, and the Classroom Code they use. Note that a Professor is permanently assigned to exactly one specific Classroom Code across the campus, but a Classroom Code can host different professors for different classes.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'classes': 3NF violation \u2014 transitive dependency ['professor_id'] -> 'classroom_code'; ['professor_id'] is not a superkey and 'classroom_code' is not part of any candidate key.",
+      "Table 'classes': BCNF violation \u2014 ['professor_id'] -> ['classroom_code'], but ['professor_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "inventory_matrix",
+    "requirements": "I need a single table called inventory_matrix to manage our online store inventory. Each row needs a composite primary key made of Product ID and Supplier ID. Inside the row, save the Supplier Phone Number and the Stock Quantity of that specific product from that supplier.",
+    "baseline_issue_count": 0,
+    "baseline_issues": [],
+    "violation_types_baseline": {},
+    "self_critique_attempted": false,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "gymnastics_skills_checklist",
+    "requirements": "Design a database for a gymnastics school. For every student member, I want to record their Member ID, Full Name, Class Level, and a checklist string containing all the skills they have successfully mastered so far (e.g., Handstand, Backflip, Cartwheel).",
+    "baseline_issue_count": 1,
+    "baseline_issues": [
+      "Table 'students': possible 1NF violation \u2014 column 'skills_checklist' (TEXT) may store non-atomic, multi-valued data based on its name (heuristic check)."
+    ],
+    "violation_types_baseline": {
+      "1NF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "car_rental_insurance",
+    "requirements": "Create a database for car rentals. For each rental transaction, I want to store the Rental ID, the Car Model, the Customer Name, the Selected Insurance Package Type, and the exact Insurance Premium Cost of that specific package.",
+    "baseline_issue_count": 4,
+    "baseline_issues": [
+      "Table 'insurance_packages': 3NF violation \u2014 transitive dependency ['package_type'] -> 'premium_cost'; ['package_type'] is not a superkey and 'premium_cost' is not part of any candidate key.",
+      "Table 'insurance_packages': BCNF violation \u2014 ['package_type'] -> ['premium_cost'], but ['package_type'] is not a superkey.",
+      "Table 'rentals': 3NF violation \u2014 transitive dependency ['insurance_package_id'] -> 'insurance_premium_cost'; ['insurance_package_id'] is not a superkey and 'insurance_premium_cost' is not part of any candidate key.",
+      "Table 'rentals': BCNF violation \u2014 ['insurance_package_id'] -> ['insurance_premium_cost'], but ['insurance_package_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 2,
+      "BCNF": 2
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "real_estate_county_tax_rate",
+    "requirements": "Design a real estate database. For each property listing, I want to log the Property ID, the Address, the Square Footage, the County Name, and the County Property Tax Rate.",
+    "baseline_issue_count": 0,
+    "baseline_issues": [],
+    "violation_types_baseline": {},
+    "self_critique_attempted": false,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "cargo_routing_shipping_zone",
+    "requirements": "Build a table for an international logistics firm to track cargo routing. Each tracking row stores the Shipment ID, the Origin Zip Code, the Destination City, and the assigned Shipping Zone Code. Note that a Shipping Zone Code maps to exactly one specific Destination City.",
+    "baseline_issue_count": 0,
+    "baseline_issues": [],
+    "violation_types_baseline": {},
+    "self_critique_attempted": false,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "checkout_coupon_2nf",
+    "requirements": "Design a checkout table mapping Order ID and Coupon Code as a combined primary key. For each record, save the Order Total Price, the Coupon Discount Percentage, and the Coupon Expiration Date.",
+    "baseline_issue_count": 5,
+    "baseline_issues": [
+      "Table 'checkouts': 2NF violation \u2014 'coupon_discount_percentage' depends only on ['coupon_code'], a proper subset of candidate key ['coupon_code', 'order_id'], not the whole key.",
+      "Table 'checkouts': 2NF violation \u2014 'coupon_expiration_date' depends only on ['coupon_code'], a proper subset of candidate key ['coupon_code', 'order_id'], not the whole key.",
+      "Table 'checkouts': 3NF violation \u2014 transitive dependency ['coupon_code'] -> 'coupon_discount_percentage'; ['coupon_code'] is not a superkey and 'coupon_discount_percentage' is not part of any candidate key.",
+      "Table 'checkouts': 3NF violation \u2014 transitive dependency ['coupon_code'] -> 'coupon_expiration_date'; ['coupon_code'] is not a superkey and 'coupon_expiration_date' is not part of any candidate key.",
+      "Table 'checkouts': BCNF violation \u2014 ['coupon_code'] -> ['coupon_discount_percentage', 'coupon_expiration_date'], but ['coupon_code'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "2NF": 2,
+      "3NF": 2,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "distribution_center_bin_placement",
+    "requirements": "I need a database to map inventory item placement inside our distribution center. Each entry tracks the Placement ID, the Item Name, the Row Number, the Bin Number, the Bin Width, and the Bin Depth.",
+    "baseline_issue_count": 0,
+    "baseline_issues": [],
+    "violation_types_baseline": {},
+    "self_critique_attempted": false,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "project_roster_department",
+    "requirements": "I need a single table called project_roster to manage employee allocations. Each row should use a composite key made up of Employee ID and Project ID. For each row, record the Hours Worked on that specific project, the Employee's Department ID, and the Department Name.",
+    "baseline_issue_count": 7,
+    "baseline_issues": [
+      "Table 'project_roster': 2NF violation \u2014 'department_name' depends only on ['employee_id'], a proper subset of candidate key ['employee_id', 'project_id'], not the whole key.",
+      "Table 'project_roster': 2NF violation \u2014 'department_id' depends only on ['employee_id'], a proper subset of candidate key ['employee_id', 'project_id'], not the whole key.",
+      "Table 'project_roster': 3NF violation \u2014 transitive dependency ['employee_id'] -> 'department_name'; ['employee_id'] is not a superkey and 'department_name' is not part of any candidate key.",
+      "Table 'project_roster': 3NF violation \u2014 transitive dependency ['employee_id'] -> 'department_id'; ['employee_id'] is not a superkey and 'department_id' is not part of any candidate key.",
+      "Table 'project_roster': 3NF violation \u2014 transitive dependency ['department_id'] -> 'department_name'; ['department_id'] is not a superkey and 'department_name' is not part of any candidate key.",
+      "Table 'project_roster': BCNF violation \u2014 ['employee_id'] -> ['department_id', 'department_name'], but ['employee_id'] is not a superkey.",
+      "Table 'project_roster': BCNF violation \u2014 ['department_id'] -> ['department_name'], but ['department_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "2NF": 2,
+      "3NF": 3,
+      "BCNF": 2
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "inventory_batches_storage_zone_temp",
+    "requirements": "I need a single tracking called inventory_batches. For each product batch, record the Batch ID, Product Name, Expiration Date, Assigned Storage Zone Code, Warehouse Room Temperature requirement, and the Quantity in stock. Note that a Storage Zone Code explicitly determines its own Warehouse Room Temperature requirement.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'inventory_batches': 3NF violation \u2014 transitive dependency ['storage_zone_code'] -> 'warehouse_room_temperature_requirement'; ['storage_zone_code'] is not a superkey and 'warehouse_room_temperature_requirement' is not part of any candidate key.",
+      "Table 'inventory_batches': BCNF violation \u2014 ['storage_zone_code'] -> ['warehouse_room_temperature_requirement'], but ['storage_zone_code'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "library_books_publisher_hq",
+    "requirements": "Design a flat catalog table named library_books. It must log the Book ISBN, Title, Author Name, Publisher Name, and the Publisher's Corporate Headquarter City.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'library_books': 3NF violation \u2014 transitive dependency ['publisher_name'] -> 'publisher_headquarter_city'; ['publisher_name'] is not a superkey and 'publisher_headquarter_city' is not part of any candidate key.",
+      "Table 'library_books': BCNF violation \u2014 ['publisher_name'] -> ['publisher_headquarter_city'], but ['publisher_name'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "consultancy_skills_projects_mvd",
+    "requirements": "I need a tracking database for a consultancy. For each Employee ID, I want to store the multiple independent software technologies they are skilled in, and independently, a list of the various client project codes they are currently assigned to.",
+    "baseline_issue_count": 0,
+    "baseline_issues": [],
+    "violation_types_baseline": {},
+    "self_critique_attempted": false,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "manufacturing_log_component_manufacturer",
+    "requirements": "Create a table called manufacturing_log to monitor our assembly line. Each record must use a composite key of Component Serial Number and Factory Batch ID. For each entry, store the assembly duration, the Component Manufacturer Name, and the Manufacturer Headquarter City.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'manufacturing_logs': 3NF violation \u2014 transitive dependency ['component_manufacturer_name'] -> 'manufacturer_headquarter_city'; ['component_manufacturer_name'] is not a superkey and 'manufacturer_headquarter_city' is not part of any candidate key.",
+      "Table 'manufacturing_logs': BCNF violation \u2014 ['component_manufacturer_name'] -> ['manufacturer_headquarter_city'], but ['component_manufacturer_name'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "patient_visits_doctor_specialty",
+    "requirements": "Design a clinic database table called patient_visits. For each visit row, I want to store the Visit ID, the Patient Name, the Doctor Name, the Doctor's Department Specialty (like Pediatrics or Cardiology), and the Department Floor Location.",
+    "baseline_issue_count": 5,
+    "baseline_issues": [
+      "Table 'patient_visits': 3NF violation \u2014 transitive dependency ['doctor_name'] -> 'floor_location'; ['doctor_name'] is not a superkey and 'floor_location' is not part of any candidate key.",
+      "Table 'patient_visits': 3NF violation \u2014 transitive dependency ['doctor_name'] -> 'department_specialty'; ['doctor_name'] is not a superkey and 'department_specialty' is not part of any candidate key.",
+      "Table 'patient_visits': 3NF violation \u2014 transitive dependency ['department_specialty'] -> 'floor_location'; ['department_specialty'] is not a superkey and 'floor_location' is not part of any candidate key.",
+      "Table 'patient_visits': BCNF violation \u2014 ['doctor_name'] -> ['department_specialty', 'floor_location'], but ['doctor_name'] is not a superkey.",
+      "Table 'patient_visits': BCNF violation \u2014 ['department_specialty'] -> ['floor_location'], but ['department_specialty'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 3,
+      "BCNF": 2
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "movie_catalog_studio_hq",
+    "requirements": "Create a single flat table called movie_catalog. It must store the Movie Title, Release Year, Production Studio Name, and the Studio's Corporate Headquarters Country.",
+    "baseline_issue_count": 2,
+    "baseline_issues": [
+      "Table 'movie_catalog': 3NF violation \u2014 transitive dependency ['studio_name'] -> 'headquarters_country'; ['studio_name'] is not a superkey and 'headquarters_country' is not part of any candidate key.",
+      "Table 'movie_catalog': BCNF violation \u2014 ['studio_name'] -> ['headquarters_country'], but ['studio_name'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "3NF": 1,
+      "BCNF": 1
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  },
+  {
+    "domain": "course_enrollments_2nf",
+    "requirements": "Design a flat table named course_enrollments to track student registrations. Identify rows using a composite key of student_id and course_id. For each row, include student_name, course_title, and final_grade.",
+    "baseline_issue_count": 6,
+    "baseline_issues": [
+      "Table 'course_enrollments': 2NF violation \u2014 'student_name' depends only on ['student_id'], a proper subset of candidate key ['course_id', 'student_id'], not the whole key.",
+      "Table 'course_enrollments': 2NF violation \u2014 'course_title' depends only on ['course_id'], a proper subset of candidate key ['course_id', 'student_id'], not the whole key.",
+      "Table 'course_enrollments': 3NF violation \u2014 transitive dependency ['student_id'] -> 'student_name'; ['student_id'] is not a superkey and 'student_name' is not part of any candidate key.",
+      "Table 'course_enrollments': 3NF violation \u2014 transitive dependency ['course_id'] -> 'course_title'; ['course_id'] is not a superkey and 'course_title' is not part of any candidate key.",
+      "Table 'course_enrollments': BCNF violation \u2014 ['student_id'] -> ['student_name'], but ['student_id'] is not a superkey.",
+      "Table 'course_enrollments': BCNF violation \u2014 ['course_id'] -> ['course_title'], but ['course_id'] is not a superkey."
+    ],
+    "violation_types_baseline": {
+      "2NF": 2,
+      "3NF": 2,
+      "BCNF": 2
+    },
+    "self_critique_attempted": true,
+    "self_critique_final_issue_count": 0,
+    "self_critique_final_issues": [],
+    "self_critique_resolved": true,
+    "error": null
+  }
+]
